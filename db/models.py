@@ -17,8 +17,8 @@ class Base(DeclarativeBase):
 class User(Base):
     __tablename__ = "users"
     id: Mapped[int] = mapped_column(primary_key=True)
-    login: Mapped[str] = mapped_column(String(255), nullable=False)
-    email: Mapped[str] = mapped_column(String(255), nullable=False)
+    login: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
+    email: Mapped[str] = mapped_column(String(255), nullable=False, unique=True)
     phone_number: Mapped[str] = mapped_column(String(255), nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=False, server_default="0")
     cart_items: Mapped[list["CartItem"]] = relationship(
@@ -26,7 +26,11 @@ class User(Base):
     )
 
     created_at: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=False), server_default=func.now())
-    updated_at: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=False), onupdate=func.now())
+    updated_at: Mapped[datetime.datetime] = mapped_column(
+        DateTime(timezone=False),
+        onupdate=func.now(),
+        nullable=True
+    )
 
 
 class ShopItem(Base):
@@ -40,7 +44,11 @@ class ShopItem(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=False, server_default="0")
 
     created_at: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=False), server_default=func.now())
-    updated_at: Mapped[datetime.datetime] = mapped_column(DateTime(timezone=False), onupdate=func.now())
+    updated_at: Mapped[datetime.datetime] = mapped_column(
+        DateTime(timezone=False),
+        onupdate=func.now(),
+        nullable=True
+    )
 
 
 class CartItem(Base):
@@ -53,4 +61,5 @@ class CartItem(Base):
 
 
 if __name__ == '__main__':
+    Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
