@@ -2,5 +2,5 @@ from db.models import User
 from repositories.base import SQLAlchemyRepository
 
 
-class CartItemSQLAlchemyRepository(SQLAlchemyRepository):
+class UserSQLAlchemyRepository(SQLAlchemyRepository):
     model = User
