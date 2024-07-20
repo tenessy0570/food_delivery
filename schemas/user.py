@@ -23,7 +23,7 @@ class UserSchema(BaseModel):
 
     @field_validator("login")
     def validate_login(cls, value):
-        if not re.match(r"^\w{8,}$"):
+        if not re.match(r"^\w{8,}$", value):
             raise ValueError("login must be at least 8 characters long and not contain special characters")
 
         return value
