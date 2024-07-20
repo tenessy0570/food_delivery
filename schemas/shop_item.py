@@ -17,3 +17,10 @@ class ShopItemSchema(BaseModel):
             raise ValueError("count_available argument must be positive")
 
         return value
+
+    @field_validator("price_dollars")
+    def price_dollars_must_be_positive(cls, value):
+        if value < 0:
+            raise ValueError("price_dollars argument must be positive")
+
+        return value
