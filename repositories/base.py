@@ -18,11 +18,11 @@ class AbstractRepository(ABC):
         raise NotImplemented
 
     @abstractmethod
-    async def create_one(self, *args, **kwargs):
+    async def create_one(self, **kwargs):
         raise NotImplemented
 
     @abstractmethod
-    async def update_by_id(self, *args, **kwargs):
+    async def update_by_id(self, id: int, **kwargs):
         raise NotImplemented
 
     @abstractmethod
@@ -66,17 +66,9 @@ class SQLAlchemyRepository(AbstractRepository):
 
             return new_object
 
-    async def update_by_id(self, **kwargs) -> "SQLAlchemyRepository.model":
-        obj_id = kwargs.get("id")
-
-        if not obj_id:
-            raise KeyError("Provide id of object that needs to be updated")
-
-        obj_id = int(obj_id)
-        del kwargs['id']
-
+    async def update_by_id(self, id: int, **kwargs) -> "SQLAlchemyRepository.model":
         async with async_db_session as session:
-            stmt = update(self.model).where(self.model.id == obj_id).returning(self.model)
+            stmt = update(self.model).where(self.model.id == id).returning(self.model)
             stmt = stmt.values(**kwargs)
 
             try:
