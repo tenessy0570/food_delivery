@@ -10,7 +10,7 @@ from db.connection import async_db_session
 
 class AbstractRepository(ABC):
     @abstractmethod
-    async def fetch_all(self) -> list:
+    async def fetch_all(self, filters: dict = None) -> list:
         raise NotImplemented
 
     @abstractmethod
@@ -33,9 +33,14 @@ class AbstractRepository(ABC):
 class SQLAlchemyRepository(AbstractRepository):
     model = None
 
-    async def fetch_all(self) -> list["SQLAlchemyRepository.model"]:
+    async def fetch_all(self, filters: dict = None) -> list["SQLAlchemyRepository.model"]:
         async with async_db_session as session:
             stmt = select(self.model)
+
+            if filters:
+                for key, value in filters.items():
+                    stmt = stmt.where(getattr(self.model, key) == value)
+
             result = await session.execute(stmt)
             result = result.scalars().all()
 
