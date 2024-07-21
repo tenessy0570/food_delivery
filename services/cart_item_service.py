@@ -1,5 +1,6 @@
 from repositories.base import AbstractRepository
 from schemas.cart_item import CartItemCreateOrUpdateSchema
+from schemas.response_models.cart_item import CartItemSchema
 from schemas.response_models.shop_item import ShopItemSchema
 from schemas.response_models.user import UserSchema
 from services.base import AbstractService
@@ -37,3 +38,9 @@ class CartItemService(AbstractService):
             **creation_schema.dict()
         )
         return created_item.id
+
+    async def get_all_cart_items(self, user_id: int) -> list[CartItemSchema]:
+        items = await self.cart_item_repository.fetch_all(
+            filters={"user_id": user_id}
+        )
+        return items

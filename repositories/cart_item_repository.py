@@ -8,7 +8,7 @@ from repositories.base import SQLAlchemyRepository
 class CartItemSQLAlchemyRepository(SQLAlchemyRepository):
     model = CartItem
 
-    async def create_one(self, shop_items_count_available: int, **kwargs) -> "SQLAlchemyRepository.model":
+    async def create_one(self, shop_items_count_available: int, **kwargs) -> "CartItemSQLAlchemyRepository.model":
         async with async_db_session as session:
             stmt = select(self.model).where(
                 (self.model.user_id == int(kwargs.get("user_id")))
