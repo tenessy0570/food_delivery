@@ -3,7 +3,6 @@ from abc import ABC, abstractmethod
 from sqlalchemy import select, update, delete
 from sqlalchemy.exc import SQLAlchemyError
 
-import config
 from config import logger
 from db.connection import async_db_session
 
