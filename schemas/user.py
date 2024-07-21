@@ -3,7 +3,7 @@ import re
 from pydantic import BaseModel, field_validator
 
 
-class UserSchema(BaseModel):
+class UserCreateOrUpdateSchema(BaseModel):
     login: str
     email: str
     phone_number: str

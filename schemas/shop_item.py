@@ -3,7 +3,7 @@ from decimal import Decimal
 from pydantic import BaseModel, field_validator
 
 
-class ShopItemSchema(BaseModel):
+class ShopItemCreateOrUpdateSchema(BaseModel):
     name: str
     tags: str | None = None
     type: str | None = None

@@ -1,7 +1,7 @@
 from pydantic import BaseModel, field_validator
 
 
-class CartItemSchema(BaseModel):
+class CartItemCreateOrUpdateSchema(BaseModel):
     user_id: int
     shop_item_id: int
     count_items: int
